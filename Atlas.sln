@@ -4,6 +4,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{AB7397
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Server\Entities\Entities.csproj", "{ABB4F08D-E805-4EC3-9537-C10BC71709F7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositoryContracts", "Server\RepositoryContracts\RepositoryContracts.csproj", "{DF7E7D56-BBE1-4ED5-924C-30CD9495A3BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InMemoryRepositories", "Server\InMemoryRepositories\InMemoryRepositories.csproj", "{2707C60C-5217-4FD9-A1E3-86ED0B82AE5F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -11,11 +15,21 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{ABB4F08D-E805-4EC3-9537-C10BC71709F7} = {AB73976B-6745-4342-90B6-9EE3FF6CA875}
+		{DF7E7D56-BBE1-4ED5-924C-30CD9495A3BE} = {AB73976B-6745-4342-90B6-9EE3FF6CA875}
+		{2707C60C-5217-4FD9-A1E3-86ED0B82AE5F} = {AB73976B-6745-4342-90B6-9EE3FF6CA875}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{ABB4F08D-E805-4EC3-9537-C10BC71709F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ABB4F08D-E805-4EC3-9537-C10BC71709F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABB4F08D-E805-4EC3-9537-C10BC71709F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABB4F08D-E805-4EC3-9537-C10BC71709F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF7E7D56-BBE1-4ED5-924C-30CD9495A3BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF7E7D56-BBE1-4ED5-924C-30CD9495A3BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF7E7D56-BBE1-4ED5-924C-30CD9495A3BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF7E7D56-BBE1-4ED5-924C-30CD9495A3BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2707C60C-5217-4FD9-A1E3-86ED0B82AE5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2707C60C-5217-4FD9-A1E3-86ED0B82AE5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2707C60C-5217-4FD9-A1E3-86ED0B82AE5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2707C60C-5217-4FD9-A1E3-86ED0B82AE5F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
