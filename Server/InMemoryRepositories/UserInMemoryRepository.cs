@@ -20,12 +20,19 @@ public class UserInMemoryRepository : IUserRepository
             Username = "Saturn",
             Password = "password1"
         });
-
+        
         users.Add(new User
         {
             Id = 2,
-            Username = "Jupiter",
+            Username = "Mars",
             Password = "password2"
+        });
+
+        users.Add(new User
+        {
+            Id = 3,
+            Username = "Jupiter",
+            Password = "password3"
         });
     }
 
