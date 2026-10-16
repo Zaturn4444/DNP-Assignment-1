@@ -1,0 +1,268 @@
+
+@WebAPI_HostAddress = http://localhost:5158
+
+POST {{WebAPI_HostAddress}}/Users
+Content-Type: application/json
+
+{
+  "userName": "Saturn",
+  "password": "password1"
+}
+
+###
+
+GET {{WebAPI_HostAddress}}/Users/1
+Accept: application/json
+
+###
+
+GET {{WebAPI_HostAddress}}/Users?usernameContains=Sat
+Accept: application/json
+
+###
+
+
+PUT {{WebAPI_HostAddress}}/Users/2
+Content-Type: application/json
+
+{
+  "username": "Jupiter",
+  "password": "password2"
+}
+
+###
+
+
+GET {{WebAPI_HostAddress}}/Users/2
+Accept: application/json
+
+###
+
+
+DELETE {{WebAPI_HostAddress}}/Users/2
+Accept: application/json
+
+###
+
+
+GET {{WebAPI_HostAddress}}/Users
+Accept: application/json
+
+###
+
+
+POST {{WebAPI_HostAddress}}/Posts
+Content-Type: application/json
+
+{
+  "title": "My first post",
+  "body": "This is my first post",
+  "userId": 1
+}
+
+###
+
+
+GET {{WebAPI_HostAddress}}/Posts/1
+Accept: application/json
+
+###
+
+
+GET {{WebAPI_HostAddress}}/Posts
+Accept: application/json
+
+###
+
+GET {{WebAPI_HostAddress}}/Posts?titleContains=first
+Accept: application/json
+
+###
+
+GET {{WebAPI_HostAddress}}/Posts?userId=1
+Accept: application/json
+
+###
+
+
+DELETE {{WebAPI_HostAddress}}/Posts/1
+Accept: application/json
+
+###
+
+
+PATCH {{WebAPI_HostAddress}}/Posts/1
+Content-Type: application/json
+
+{
+  "title": "My updated post",
+  "body": "This post has been updated"
+}
+
+###
+
+
+POST {{WebAPI_HostAddress}}/Comments
+Content-Type: application/json
+
+{
+  "body": "This is my first comment",
+  "userId": 1,
+  "postId": 1
+}
+
+###
+
+
+GET {{WebAPI_HostAddress}}/Comments/1
+Accept: application/json
+
+###
+
+
+GET {{WebAPI_HostAddress}}/Comments
+Accept: application/json
+
+###
+
+GET {{WebAPI_HostAddress}}/Comments?userId=1
+Accept: application/json
+
+###
+
+GET {{WebAPI_HostAddress}}/Comments?postId=1
+Accept: application/json
+
+###
+
+
+PATCH {{WebAPI_HostAddress}}/Comments/1
+Content-Type: application/json
+
+{
+  "body": "This comment has been updated"
+}
+
+###
+
+
+DELETE {{WebAPI_HostAddress}}/Comments/1
+Accept: application/json
+
+###
+
+
+GET {{WebAPI_HostAddress}}/Comments/999
+Accept: application/json
+
+###
+
+
+GET {{WebAPI_HostAddress}}/Posts/999
+Accept: application/json
+
+###
+
+
+GET {{WebAPI_HostAddress}}/Users/999
+Accept: application/json
+
+###
+
+
+PUT {{WebAPI_HostAddress}}/Users/999
+Content-Type: application/json
+
+{
+  "username": "TestUser",
+  "password": "test123"
+}
+
+###
+
+DELETE {{WebAPI_HostAddress}}/Users/999
+Accept: application/json
+
+###
+
+
+PATCH {{WebAPI_HostAddress}}/Posts/999
+Content-Type: application/json
+
+{
+  "title": "Updated title",
+  "body": "Updated body"
+}
+
+###
+
+DELETE {{WebAPI_HostAddress}}/Posts/999
+Accept: application/json
+
+###
+
+
+PATCH {{WebAPI_HostAddress}}/Comments/999
+Content-Type: application/json
+
+{
+  "body": "Updated comment"
+}
+
+###
+
+
+DELETE {{WebAPI_HostAddress}}/Comments/999
+Accept: application/json
+
+###
+
+
+POST {{WebAPI_HostAddress}}/Users
+Content-Type: application/json
+
+{
+  "userName": "Saturn",
+  "password": "password123"
+}
+
+###
+
+
+POST {{WebAPI_HostAddress}}/Users
+Content-Type: application/json
+
+{
+  "userName": "Venus",
+  "password": "password123"
+}
+
+###
+
+
+PUT {{WebAPI_HostAddress}}/Users/4
+Content-Type: application/json
+
+{
+  "username": "Saturn",
+  "password": "password123"
+}
+
+###
+
+
+PUT {{WebAPI_HostAddress}}/Users/4
+Content-Type: application/json
+
+{
+  "username": "Neptune",
+  "password": "password123"
+}
+
+###
+
+
+GET {{WebAPI_HostAddress}}/Users/4
+Accept: application/json
+
+###
