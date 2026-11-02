@@ -1,0 +1,43 @@
+﻿@page "/ViewPosts"
+@using BlazorApp.Services
+@using ApiContracts
+@inject IPostService postService
+
+<h3>View Posts</h3>
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <p>@errorMessage</p>
+}
+else if (posts == null)
+{
+    <p>Loading posts...</p>
+}
+else
+{
+    @foreach (PostDto post in posts)
+    {
+        <div>
+            <h4>
+                <a href="@($"/PostDetails/{post.Id}")">@post.Title</a>
+            </h4>
+        </div>
+    }
+}
+
+@code {
+    private IEnumerable<PostDto>? posts;
+    private string errorMessage = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            posts = await postService.GetPostsAsync();
+        }
+        catch (Exception e)
+        {
+            errorMessage = e.Message;
+        }
+    }
+}

@@ -1,0 +1,49 @@
+﻿@page "/CreatePost"
+@using BlazorApp.Services
+@using ApiContracts
+@inject IPostService postService
+
+<h3>Create Post</h3>
+
+<div>
+    <label>Title:</label>
+    <input type="text" @bind="title" />
+</div>
+
+<div>
+    <label>Body:</label>
+    <textarea @bind="body"></textarea>
+</div>
+
+<button @onclick="Create">Create Post</button>
+
+@if (!string.IsNullOrEmpty(message))
+{
+    <p>@message</p>
+}
+
+@code {
+    private string title = string.Empty;
+    private string body = string.Empty;
+    private string message = string.Empty;
+
+    private async Task Create()
+    {
+        try
+        {
+            CreatePostDto dto = new()
+            {
+                Title = title,
+                Body = body,
+                UserId = 1
+            };
+
+            await postService.AddPostAsync(dto);
+            message = "Post created successfully";
+        }
+        catch (Exception e)
+        {
+            message = e.Message;
+        }
+    }
+}

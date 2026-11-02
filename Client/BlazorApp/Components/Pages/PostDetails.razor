@@ -1,0 +1,90 @@
+﻿@page "/PostDetails/{id:int}"
+@using BlazorApp.Services
+@using ApiContracts
+@inject IPostService postService
+@inject IUserService userService
+@inject ICommentService commentService
+
+<h3>Post Details</h3>
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <p>@errorMessage</p>
+}
+else if (post == null)
+{
+    <p>Loading post...</p>
+}
+else
+{
+    <h4>@post.Title</h4>
+    <p>@post.Body</p>
+    <p>Author: @authorName</p>
+
+    <h4>Comments</h4>
+
+    @if (comments != null)
+    {
+        @foreach (CommentDto comment in comments)
+        {
+            <p>@comment.Body</p>
+        }
+    }
+
+    <h4>Add Comment</h4>
+
+    <textarea @bind="commentBody"></textarea>
+    <br />
+    <button @onclick="AddComment">Add Comment</button>
+}
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    private PostDto? post;
+    private IEnumerable<CommentDto>? comments;
+    private string authorName = string.Empty;
+    private string errorMessage = string.Empty;
+    private string commentBody = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            post = await postService.GetPostAsync(id);
+
+            UserDto user = await userService.GetUserAsync(post.UserId);
+            authorName = user.Username;
+
+            comments = await commentService.GetCommentsAsync(id);
+        }
+        catch (Exception e)
+        {
+            errorMessage = e.Message;
+        }
+    }
+
+    private async Task AddComment()
+    {
+        try
+        {
+            CreateCommentDto request = new()
+            {
+                Body = commentBody,
+                UserId = 1,
+                PostId = id
+            };
+
+            await commentService.AddCommentAsync(request);
+
+            comments = await commentService.GetCommentsAsync(id);
+            commentBody = string.Empty;
+            errorMessage = string.Empty;
+        }
+        catch (Exception e)
+        {
+            errorMessage = e.Message;
+        }
+    }
+}
