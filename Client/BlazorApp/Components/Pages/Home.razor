@@ -1,7 +1,23 @@
 ﻿@page "/"
+@inject NavigationManager NavMgr
+@rendermode InteractiveServer
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Reddit Clone</h1>
 
-Welcome to your new app.
+<AuthorizeView>
+    <Authorized>
+        <h3>Hello, @context.User.Identity.Name</h3>
+    </Authorized>
+    <NotAuthorized>
+        <p>lol, you are not logged in!</p>
+        <button @onclick='() => NavMgr.NavigateTo("login")'>
+            go to login
+        </button>
+    </NotAuthorized>
+</AuthorizeView>
+
+<p>
+    Here you can browse interesting posts and dive into the mysteries of the univers.
+</p>

@@ -1,28 +1,39 @@
 ﻿@page "/CreatePost"
 @using BlazorApp.Services
 @using ApiContracts
+@using System.Security.Claims
 @inject IPostService postService
 
-<h3>Create Post</h3>
+<AuthorizeView>
+    <Authorized>
+        <h3>Create Post</h3>
 
-<div>
-    <label>Title:</label>
-    <input type="text" @bind="title" />
-</div>
+        <div>
+            <label>Title:</label>
+            <input type="text" @bind="title" />
+        </div>
 
-<div>
-    <label>Body:</label>
-    <textarea @bind="body"></textarea>
-</div>
+        <div>
+            <label>Body:</label>
+            <textarea @bind="body"></textarea>
+        </div>
 
-<button @onclick="Create">Create Post</button>
+        <button @onclick="Create">Create Post</button>
 
-@if (!string.IsNullOrEmpty(message))
-{
-    <p>@message</p>
-}
+        @if (!string.IsNullOrEmpty(message))
+        {
+            <p>@message</p>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <p>You must be logged in to create a post.</p>
+    </NotAuthorized>
+</AuthorizeView>
 
 @code {
+    [CascadingParameter]
+    public Task<AuthenticationState> State { get; set; } = default!;
+
     private string title = string.Empty;
     private string body = string.Empty;
     private string message = string.Empty;
@@ -31,11 +42,21 @@
     {
         try
         {
+            AuthenticationState authState = await State;
+            ClaimsPrincipal user = authState.User;
+
+            string? userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+            {
+                message = "User is not logged in";
+                return;
+            }
+
             CreatePostDto dto = new()
             {
                 Title = title,
                 Body = body,
-                UserId = 1
+                UserId = int.Parse(userId)
             };
 
             await postService.AddPostAsync(dto);

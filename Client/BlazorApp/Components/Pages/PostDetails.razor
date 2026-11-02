@@ -1,6 +1,8 @@
-﻿@page "/PostDetails/{id:int}"
+﻿
+@page "/PostDetails/{id:int}"
 @using BlazorApp.Services
 @using ApiContracts
+@using System.Security.Claims
 @inject IPostService postService
 @inject IUserService userService
 @inject ICommentService commentService
@@ -31,16 +33,25 @@ else
         }
     }
 
-    <h4>Add Comment</h4>
-
-    <textarea @bind="commentBody"></textarea>
-    <br />
-    <button @onclick="AddComment">Add Comment</button>
+    <AuthorizeView>
+        <Authorized>
+            <h4>Add Comment</h4>
+            <textarea @bind="commentBody"></textarea>
+            <br />
+            <button @onclick="AddComment">Add Comment</button>
+        </Authorized>
+        <NotAuthorized>
+            <p>You must be logged in to add a comment.</p>
+        </NotAuthorized>
+    </AuthorizeView>
 }
 
 @code {
     [Parameter]
     public int id { get; set; }
+
+    [CascadingParameter]
+    public Task<AuthenticationState> State { get; set; } = default!;
 
     private PostDto? post;
     private IEnumerable<CommentDto>? comments;
@@ -69,10 +80,20 @@ else
     {
         try
         {
+            AuthenticationState authState = await State;
+            ClaimsPrincipal user = authState.User;
+
+            string? userId = user.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+            {
+                errorMessage = "User is not logged in";
+                return;
+            }
+
             CreateCommentDto request = new()
             {
                 Body = commentBody,
-                UserId = 1,
+                UserId = int.Parse(userId),
                 PostId = id
             };
 
