@@ -1,5 +1,5 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RepositoryContracts;
 using Entities;
 using ApiContracts;
@@ -41,30 +41,48 @@ public class PostsController : ControllerBase
     }
 
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<PostDto>> GetPost([FromRoute] int id)
+    public async Task<ActionResult<PostDto>> GetPost(
+        [FromRoute] int id,
+        [FromQuery] bool includeAuthor = false,
+        [FromQuery] bool includeComments = false)
     {
-        try
-        {
-            Post post = await postRepo.GetSingleAsync(id);
-
-            PostDto dto = new()
+        PostDto? dto = await postRepo.GetManyAsync()
+            .Where(p => p.Id == id)
+            .Select(p => new PostDto
             {
-                Id = post.Id,
-                Title = post.Title,
-                Body = post.Body,
-                UserId = post.UserId
-            };
+                Id = p.Id,
+                Title = p.Title,
+                Body = p.Body,
+                UserId = p.UserId,
+                Author = includeAuthor
+                    ? new UserDto
+                    {
+                        Id = p.User.Id,
+                        Username = p.User.Username
+                    }
+                    : null,
+                Comments = includeComments
+                    ? p.Comments.Select(c => new CommentDto
+                    {
+                        Id = c.Id,
+                        Body = c.Body,
+                        UserId = c.UserId,
+                        PostId = c.PostId
+                    }).ToList()
+                    : new List<CommentDto>()
+            })
+            .FirstOrDefaultAsync();
 
-            return Ok(dto);
-        }
-        catch (InvalidOperationException)
+        if (dto is null)
         {
             return NotFound();
         }
+
+        return Ok(dto);
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<PostDto>> GetPosts(
+    public async Task<ActionResult<IEnumerable<PostDto>>> GetPosts(
         [FromQuery] string? titleContains = null,
         [FromQuery] int? userId = null)
     {
@@ -80,13 +98,15 @@ public class PostsController : ControllerBase
             posts = posts.Where(p => p.UserId == userId);
         }
 
-        List<PostDto> dtos = posts.Select(p => new PostDto
-        {
-            Id = p.Id,
-            Title = p.Title,
-            Body = p.Body,
-            UserId = p.UserId
-        }).ToList();
+        List<PostDto> dtos = await posts
+            .Select(p => new PostDto
+            {
+                Id = p.Id,
+                Title = p.Title,
+                Body = p.Body,
+                UserId = p.UserId
+            })
+            .ToListAsync();
 
         return Ok(dtos);
     }
@@ -119,7 +139,6 @@ public class PostsController : ControllerBase
         try
         {
             await postRepo.DeleteAsync(id);
-
             return NoContent();
         }
         catch (InvalidOperationException)

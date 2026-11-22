@@ -1,4 +1,4 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{AB73976B-6745-4342-90B6-9EE3FF6CA875}"
 EndProject
@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{B71F2E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp", "Client\BlazorApp\BlazorApp.csproj", "{5145D776-4082-4818-88BE-F2C0EDDDFC8A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfcRepositories", "Server\EfcRepositories\EfcRepositories.csproj", "{F256138F-B640-465A-9455-F9B87729A6EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +38,7 @@ Global
 		{83343AEF-97FB-4324-B92C-8A9D18D15AA8} = {7151B12F-A373-48B9-8527-871F76112B3B}
 		{35B179E6-FA4A-473A-B33D-473FE4D5AF3F} = {AB73976B-6745-4342-90B6-9EE3FF6CA875}
 		{5145D776-4082-4818-88BE-F2C0EDDDFC8A} = {B71F2E1D-30F3-4003-AA9B-FBED75C38B97}
+		{F256138F-B640-465A-9455-F9B87729A6EE} = {AB73976B-6745-4342-90B6-9EE3FF6CA875}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{ABB4F08D-E805-4EC3-9537-C10BC71709F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -70,6 +73,10 @@ Global
 		{5145D776-4082-4818-88BE-F2C0EDDDFC8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5145D776-4082-4818-88BE-F2C0EDDDFC8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5145D776-4082-4818-88BE-F2C0EDDDFC8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F256138F-B640-465A-9455-F9B87729A6EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F256138F-B640-465A-9455-F9B87729A6EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F256138F-B640-465A-9455-F9B87729A6EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F256138F-B640-465A-9455-F9B87729A6EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
 

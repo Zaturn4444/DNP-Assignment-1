@@ -1,5 +1,5 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RepositoryContracts;
 using Entities;
 using ApiContracts;
@@ -64,7 +64,7 @@ public class CommentsController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<CommentDto>> GetComments(
+    public async Task<ActionResult<IEnumerable<CommentDto>>> GetComments(
         [FromQuery] int? userId = null,
         [FromQuery] int? postId = null)
     {
@@ -80,13 +80,15 @@ public class CommentsController : ControllerBase
             comments = comments.Where(c => c.PostId == postId);
         }
 
-        List<CommentDto> dtos = comments.Select(c => new CommentDto
-        {
-            Id = c.Id,
-            Body = c.Body,
-            UserId = c.UserId,
-            PostId = c.PostId
-        }).ToList();
+        List<CommentDto> dtos = await comments
+            .Select(c => new CommentDto
+            {
+                Id = c.Id,
+                Body = c.Body,
+                UserId = c.UserId,
+                PostId = c.PostId
+            })
+            .ToListAsync();
 
         return Ok(dtos);
     }
@@ -118,7 +120,6 @@ public class CommentsController : ControllerBase
         try
         {
             await commentRepo.DeleteAsync(id);
-
             return NoContent();
         }
         catch (InvalidOperationException)

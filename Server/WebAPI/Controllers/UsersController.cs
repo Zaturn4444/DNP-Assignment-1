@@ -1,5 +1,5 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using RepositoryContracts;
 using Entities;
 using ApiContracts;
@@ -22,7 +22,7 @@ public class UsersController : ControllerBase
     {
         IQueryable<User> users = userRepo.GetManyAsync();
 
-        bool usernameExists = users.Any(u => u.Username == request.UserName);
+        bool usernameExists = await users.AnyAsync(u => u.Username == request.UserName);
 
         if (usernameExists)
         {
@@ -68,7 +68,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<UserDto>> GetUsers(
+    public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers(
         [FromQuery] string? usernameContains = null)
     {
         IQueryable<User> users = userRepo.GetManyAsync();
@@ -78,11 +78,13 @@ public class UsersController : ControllerBase
             users = users.Where(u => u.Username.Contains(usernameContains));
         }
 
-        List<UserDto> dtos = users.Select(u => new UserDto
-        {
-            Id = u.Id,
-            Username = u.Username
-        }).ToList();
+        List<UserDto> dtos = await users
+            .Select(u => new UserDto
+            {
+                Id = u.Id,
+                Username = u.Username
+            })
+            .ToListAsync();
 
         return Ok(dtos);
     }
@@ -98,7 +100,7 @@ public class UsersController : ControllerBase
 
             IQueryable<User> users = userRepo.GetManyAsync();
 
-            bool usernameExists = users.Any(u =>
+            bool usernameExists = await users.AnyAsync(u =>
                 u.Username == request.Username && u.Id != id);
 
             if (usernameExists)
@@ -125,7 +127,6 @@ public class UsersController : ControllerBase
         try
         {
             await userRepo.DeleteAsync(id);
-
             return NoContent();
         }
         catch (InvalidOperationException)
